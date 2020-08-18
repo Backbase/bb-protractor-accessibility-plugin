@@ -14,7 +14,7 @@
     "url": "git+https://github.com/Backbase/bb-protractor-accessibility-plugin.git"
   },
   "author": "Backbase",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "axe-webdriverjs": "^2.3.0",
     "install": "^0.13.0",
