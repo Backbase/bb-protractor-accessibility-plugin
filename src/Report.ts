@@ -1,4 +1,4 @@
-export const TEST_HEADER = "aXe - ";
+export const TEST_HEADER = "Accessibility report : ";
 export interface AccessibiltyResult {
   msg: string;
   content: { specName?: string; stackTrace?: string };
