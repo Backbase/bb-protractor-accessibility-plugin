@@ -4,7 +4,7 @@ Backbase Protractor Accessibility Plugin
 ## Install
 
 ```shell
-npm install --save-dev bb-protractor-accessibility-plugin
+npm install --save-dev @bb-cli/bb-protractor-accessibility-plugin
 ```
 
 ### Requirements
