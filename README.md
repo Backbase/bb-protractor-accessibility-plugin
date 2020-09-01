@@ -20,7 +20,7 @@ Enable this plugin inside your protractor.conf.js
       plugins: [{
         axe: true,
         warnOnly: false,
-        package: 'bb-protractor-accessibility-plugin'
+        package: '@bb-cli/bb-protractor-accessibility-plugin'
       }]
     }
 ```
