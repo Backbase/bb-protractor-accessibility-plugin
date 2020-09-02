@@ -1,6 +1,6 @@
 {
   "name": "@bb-cli/bb-protractor-accessibility-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Protractor accessibility plugin integrated with Axe",
   "main": "./dist/index.js",
   "scripts": {
