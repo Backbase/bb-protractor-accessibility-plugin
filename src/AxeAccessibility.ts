@@ -6,8 +6,7 @@ const AxeBuilder = require("axe-webdriverjs");
 export class AxeAccessibility implements ProtractorPlugin {
   config: any;
   private report: Report = new Report();
-  axe: any;
-
+  
   private fail(
     message?: string,
     info?: { specName?: string; stackTrace?: string }
@@ -34,12 +33,13 @@ export class AxeAccessibility implements ProtractorPlugin {
   }
 
   waitForPromise(browser: ProtractorBrowser): webdriver.promise.Promise<void> {
+    const { axe } = this.config;
     const processAxeResults = (results: any) =>
       results.violations.forEach(this.report.createRecord);
 
     return new Promise((resolve) =>
       AxeBuilder(browser.driver)
-        .options(this.axe)
+        .options(axe)
         .analyze((results: any) => {
           resolve(results);
         })

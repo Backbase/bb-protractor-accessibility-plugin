@@ -28,9 +28,10 @@ class AxeAccessibility {
         });
     }
     waitForPromise(browser) {
+        const { axe } = this.config;
         const processAxeResults = (results) => results.violations.forEach(this.report.createRecord);
         return new Promise((resolve) => AxeBuilder(browser.driver)
-            .options(this.axe)
+            .options(axe)
             .analyze((results) => {
             resolve(results);
         })).then(processAxeResults);
