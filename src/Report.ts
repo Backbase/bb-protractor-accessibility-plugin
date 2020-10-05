@@ -1,55 +1,38 @@
 export const TEST_HEADER = "Accessibility report : ";
-export interface AccessibiltyResult {
+export interface ReportError {
+  specName: string,
+  helpUrl: string,
+  elements: Set<string>
+}
+export interface AccessibilityResult {
   msg: string;
   content: { specName?: string; stackTrace?: string };
 }
-
 export class Report {
-  private _records: AccessibiltyResult[] = [];
-
-  private add(record: AccessibiltyResult) {
-    this._records.push(record);
+  private errors: Map<string, ReportError> = new Map();
+  get records(): AccessibilityResult[] {
+    return Array.from(this.errors.values(), error => {
+      const label = error.elements.size === 1 ? " element " : " elements ";
+      const elements = Array.from(error.elements).reduce((msg, element) => msg + "\t\t" + element + "\n\n", "\n");
+      const message = `\n\n\t` +
+          `${error.elements.size}${label} failed:\n` +
+          `${elements}\t` +
+          `${error.helpUrl}\n\n`;
+      return {
+        msg: message,
+        content: { specName: error.specName },
+      }
+    });
   }
-
-  private exists(value: AccessibiltyResult) {
-    return (
-      this._records.find(
-        (item) =>
-          item.msg === value.msg &&
-          item.content.specName === value.content.specName
-      ) !== undefined
-    );
+  get hasErrors(): boolean {
+    return this.errors.size > 0;
   }
-
-  get records() {
-    return [...this._records];
-  }
-
-  get hasErrors() {
-    return this.records.length > 0;
-  }
-
-  createRecord = (result: any) => {
-    const label = result.nodes.length === 1 ? " element " : " elements ";
-    let msg = result.nodes.reduce((msg: any, node: any) => {
-      return msg + "\t\t" + node.html + "\n";
-    }, "\n");
-
-    msg =
-      "\n\t\t" +
-      result.nodes.length +
-      label +
-      "failed:" +
-      msg +
-      "\n\n\t\t" +
-      result.helpUrl;
-    const record: AccessibiltyResult = {
-      msg,
-      content: { specName: TEST_HEADER + result.help },
-    };
-
-    if (!this.exists(record)) {
-      this.add(record);
+  createRecord = ({ id, help, helpUrl, nodes }: { id: string, help: string, helpUrl: string, nodes: any[] }): void => {
+    if (!this.errors.has(id)) {
+      this.errors.set(id, { specName: TEST_HEADER + help, helpUrl, elements: new Set() });
     }
-  };
+    nodes
+        .map((node: any) => `${node.target.join('')}\n\t\t${node.html}`)
+        .forEach(element => this.errors.get(id)!.elements.add(element));
+  }
 }
