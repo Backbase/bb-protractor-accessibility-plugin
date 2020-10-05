@@ -6,7 +6,7 @@ const AxeBuilder = require("axe-webdriverjs");
 export class AxeAccessibility implements ProtractorPlugin {
   config: any;
   private report: Report = new Report();
-  
+
   private fail(
     message?: string,
     info?: { specName?: string; stackTrace?: string }
